@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
@@ -49,15 +50,16 @@ public class FakeTest {
                 body("$", Matchers.instanceOf(List.class));
     }
 
-        @Test
-        public void testgettitle() {
+    @Test
+    public void testgettitle() {
 
         given().
                 when().
                 get("?title=Generic");
-        }
-        @Test
-        public void testgetId() {
+    }
+
+    @Test
+    public void testgetId() {
         given().
                 pathParam("id", 1).
                 when().
@@ -65,27 +67,30 @@ public class FakeTest {
                 then().
                 statusCode(200).
                 body("id", Matchers.equalTo(1));
-        }
-        @Test
-        public void testgetpricerange() {
+    }
+
+    @Test
+    public void testgetpricerange() {
         given().
                 queryParam("price_min", 100).
-                queryParam("price_max",1000).
+                queryParam("price_max", 1000).
                 when()
                 .get("/products/").
                 then().
                 statusCode(200).
-                body("price", everyItem(allOf(Matchers.greaterThanOrEqualTo(100),lessThanOrEqualTo(1000))));
-        }
-        @Test
-        public void testcatdata(){
-        String body = """
-                {
-                  "id": 888,
-                  "name": "nanthan",
-                  "image": "https://placehold.co/600x400"
-                }
-               """;
+                body("price", everyItem(allOf(Matchers.greaterThanOrEqualTo(100), lessThanOrEqualTo(1000))));
+    }
+
+    @Test
+    public void testcatdata() {
+
+        String uniqueName = "nanthan_" + System.currentTimeMillis();
+
+        Map<String, String> body = Map.of(
+                "name", uniqueName,
+                "image", "https://placehold.co/600x400"
+        );
+
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(body)
@@ -94,8 +99,7 @@ public class FakeTest {
                 .then()
                 .log().all()
                 .statusCode(201)
-                .body("name", Matchers.equalTo("nanthan"))
+                .body("name", Matchers.equalTo(uniqueName))
                 .body("image", Matchers.equalTo("https://placehold.co/600x400"));
     }
-
 }
