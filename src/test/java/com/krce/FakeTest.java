@@ -84,7 +84,7 @@ public class FakeTest {
     @Test
     public void testcatdata() {
 
-        String uniqueName = "nanthan_" + System.currentTimeMillis();
+        String uniqueName = "nanthan_2" + System.currentTimeMillis();
 
         Map<String, String> body = Map.of(
                 "name", uniqueName,
