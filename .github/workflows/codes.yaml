@@ -32,7 +32,7 @@ jobs:
 
           subject: Automation test Report
 
-          to: benedict.ahb7@gmail.com
+          to: shaliniviswanathan42@gmail.com
           from: Github Actions
 
           html_body: file://target/surefire-reports/emailable-report.html
